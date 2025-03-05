@@ -30,11 +30,11 @@ CREATE TABLE persona (
     apellido1 VARCHAR(50),
     apellido2 VARCHAR(50),
     idDocumento INT,
+    documento VARCHAR(50),
     fechaNacimiento DATE,
     telefono VARCHAR(15),
     correoElectronico VARCHAR(100),
     idProfesion INT,
-    tipoDocumento VARCHAR(50),
     FOREIGN KEY (idDocumento) REFERENCES documento(idDocumento),
     FOREIGN KEY (idProfesion) REFERENCES profesion(idProfesion)
 );

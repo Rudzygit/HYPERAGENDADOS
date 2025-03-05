@@ -7,3 +7,7 @@ export const findByUserEmail = async (email) => {
   );
   return user[0];
 };
+
+export const saveUser = async (user) => {
+  // await connection.query("INSERT INTO usuario SET ?", [user]);
+};

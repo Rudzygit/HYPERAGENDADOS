@@ -31,12 +31,12 @@ INSERT INTO persona (idPersona, primerNombre, segundoNombre, apellido1, apellido
 (2, 'María', 'Alejandra', 'López', 'García', 2, '1990-08-25', '3102345678', 'maria.lopez@example.com', 'Pediatría', 5, 'Tarjeta de Identidad'),
 (3, 'Carlos', 'Andrés', 'Martínez', 'Rodríguez', 3, '1978-12-10', '3203456789', 'carlos.martinez@example.com', 'Neurología', 8, 'Pasaporte');
 
-INSERT INTO usuario (idUsuario, nombreUsuario, Contraseña, idRol, idPersona) VALUES
+INSERT INTO usuario (idUsuario, username, password, idRol, idPersona) VALUES
 (1, 'juan.gomez', 'password123', 1, 1),
 (2, 'maria.lopez', 'password456', 2, 2),
 (3, 'carlos.martinez', 'password789', 3, 3);
 
-INSERT INTO citas (idCita, fechaCita, horaCita, idUsuario) VALUES
-(1, '2023-10-15', '10:00:00', 1),
-(2, '2023-10-16', '11:30:00', 2),
-(3, '2023-10-17', '09:00:00', 3);
+-- INSERT INTO citas (idCita, fechaCita, horaCita, idUsuario) VALUES
+-- (1, '2023-10-15', '10:00:00', 1),
+-- (2, '2023-10-16', '11:30:00', 2),
+-- (3, '2023-10-17', '09:00:00', 3);

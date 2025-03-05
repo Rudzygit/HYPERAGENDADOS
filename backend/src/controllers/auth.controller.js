@@ -31,5 +31,39 @@ export const login = async (req, res) => {
 };
 
 export const register = (req, res) => {
+  validateInputsFields(
+    [
+      "primerNombre",
+      "segundoNombre",
+      "apellido1",
+      "apellido2",
+      "idDocumento",
+      "fechaNacimiento",
+      "telefono",
+      "correoElectronico",
+      "idProfesion",
+      "documento",
+      "usuario",
+      "password",
+    ],
+    req.body,
+    res
+  );
+
+  const {
+    primerNombre,
+    segundoNombre,
+    apellido1,
+    apellido2,
+    idDocumento,
+    fechaNacimiento,
+    telefono,
+    correoElectronico,
+    idProfesion,
+    documento,
+    usuario,
+    password,
+  } = req.body;
+
   res.status(200).json({ message: "Registro exitoso" });
 };
