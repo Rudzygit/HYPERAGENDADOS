@@ -1,30 +1,30 @@
 -- Paso 1: Crear la base de datos
-CREATE DATABASE hyperagendados;
+CREATE DATABASE IF NOT EXISTS hyperagendados;
 
 -- Paso 2: Seleccionar la base de datos
 USE hyperagendados;
 
 -- Paso 3: Crear la tabla 'rol'
 CREATE TABLE rol (
-    idRol INT PRIMARY KEY,
+    idRol INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(50)
 );
 
 -- Paso 4: Crear la tabla 'profesion'
 CREATE TABLE profesion (
-    idProfesion INT PRIMARY KEY,
+    idProfesion INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(50)
 );
 
 -- Paso 5: Crear la tabla 'documento'
 CREATE TABLE documento (
-    idDocumento INT PRIMARY KEY,
+    idDocumento INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(50)
 );
 
 -- Paso 6: Crear la tabla 'persona'
 CREATE TABLE persona (
-    idPersona INT PRIMARY KEY,
+    idPersona BIGINT PRIMARY KEY AUTO_INCREMENT,
     primerNombre VARCHAR(50),
     segundoNombre VARCHAR(50),
     apellido1 VARCHAR(50),
@@ -41,11 +41,11 @@ CREATE TABLE persona (
 
 -- Paso 7: Crear la tabla 'usuario'
 CREATE TABLE usuario (
-    idUsuario INT PRIMARY KEY,
-    nombreUsuario VARCHAR(50),
-    Contraseña VARCHAR(50),
+    idUsuario BIGINT PRIMARY KEY AUTO_INCREMENT,
+    usuario VARCHAR(50),
+    password VARCHAR(500),
     idRol INT,
-    idPersona INT,
+    idPersona BIGINT,
     FOREIGN KEY (idRol) REFERENCES rol(idRol),
     FOREIGN KEY (idPersona) REFERENCES persona(idPersona)
 );
@@ -53,10 +53,16 @@ CREATE TABLE usuario (
 
 -- Paso 8: Crear la tabla 'citas'
 CREATE TABLE citas (
-    idCita INT PRIMARY KEY,
+    idCita BIGINT PRIMARY KEY AUTO_INCREMENT,
     fechaCita DATE,
     horaCita TIME,
-    idUsuario INT,
+    idUsuario BIGINT,
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario),
     idestadocita int
+);
+
+-- Paso 9: Crear la tabla 'estadocita'
+CREATE TABLE estadocita (
+    idestadocita INT PRIMARY KEY AUTO_INCREMENT,
+    estadocita VARCHAR(50)
 );
