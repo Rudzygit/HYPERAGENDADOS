@@ -1,3 +1,7 @@
-h1 {
-    color: green;
-}
+.empleado-container {
+    background-color: #d1ecf1;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  

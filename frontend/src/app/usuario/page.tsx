@@ -1,8 +1,10 @@
 "use client";
-import ProtegerRuta from "../protegerRuta";
-import "./UsuarioPage.css";
 
-const UsuarioPage = () => {
+import React from "react";
+import ProtegerRuta from "../protegerRuta";
+import "../usuario/UsuarioPage.css"; // Importación correcta
+
+const UsuarioPage: React.FC = () => {
   return (
     <ProtegerRuta roleRequired="usuario">
       <div className="usuario-container">

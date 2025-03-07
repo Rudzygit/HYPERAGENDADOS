@@ -1,3 +1,7 @@
-h1 {
-    color: red;
-}
+.usuario-container {
+    background-color: #d4edda;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
