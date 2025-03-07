@@ -1,11 +1,16 @@
-import React from 'react';
+"use client";
+import ProtegerRuta from "../protegerRuta";
+import "./AdminPage.css";
 
 const AdminPage = () => {
-    return (
-        <div>
-            <h1>Panel de Administrador</h1>
-        </div>
-    );
+  return (
+    <ProtegerRuta roleRequired="admin">
+      <div className="admin-container">
+        <h1>Panel de Administrador</h1>
+        <p>Bienvenido, aquí puedes gestionar las citas y usuarios.</p>
+      </div>
+    </ProtegerRuta>
+  );
 };
 
 export default AdminPage;
