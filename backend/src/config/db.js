@@ -2,9 +2,9 @@ import mysql from "mysql2/promise";
 import "dotenv/config";
 
 const pool = mysql.createPool({
-  host: process.env.DB_HOST, // Según la imagen que enviaste
+  host: process.env.DB_HOST,
   user: "root",
-  password: process.env.DB_PASSWORD, // Si no tienes contraseña, déjalo vacío
+  password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   port: process.env.DB_PORT,
   waitForConnections: true,
