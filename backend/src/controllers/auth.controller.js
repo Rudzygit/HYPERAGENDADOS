@@ -25,7 +25,7 @@ export const login = async (req, res) => {
 
   const { username, password } = req.body;
 
-  const results = await findByUserEmail(correoElectronico);
+  const results = await getAccountWithUsuario(username);
 
   if (results.data.length === 0)
     return res

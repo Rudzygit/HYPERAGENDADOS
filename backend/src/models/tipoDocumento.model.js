@@ -1,9 +1,9 @@
-import { connection } from "../config/db.js";
+import pool from "../config/db.js";
 import ApiResponse from "../utils/apiResponse.js";
 
 export const getTiposDocumentosModel = async () => {
   try {
-    const tiposDocumentos = await connection.query("SELECT * FROM documento");
+    const tiposDocumentos = await pool.query("SELECT * FROM documento");
     return ApiResponse(
       200,
       "Tipos de documentos obtenidos con éxito",
@@ -20,7 +20,7 @@ export const getTiposDocumentosModel = async () => {
 
 export const getTipoDocumentoModel = async (id) => {
   try {
-    const tipoDocumento = await connection.query(
+    const tipoDocumento = await pool.query(
       "SELECT * FROM documento WHERE idDocumento = ?",
       [id]
     );

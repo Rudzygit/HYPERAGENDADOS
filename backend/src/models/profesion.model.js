@@ -1,9 +1,9 @@
-import { connection } from "../config/db.js";
+import pool from "../config/db.js";
 import ApiResponse from "../utils/apiResponse.js";
 
 export const getProfesionesModel = async () => {
   try {
-    const profesiones = await connection.query("SELECT * FROM profesion");
+    const profesiones = await pool.query("SELECT * FROM profesion");
     return ApiResponse(200, "Profesiones obtenidas con éxito", profesiones[0]);
   } catch (error) {
     return ApiResponse(
@@ -16,7 +16,7 @@ export const getProfesionesModel = async () => {
 
 export const getProfesionModel = async (id) => {
   try {
-    const profesion = await connection.query(
+    const profesion = await pool.query(
       "SELECT * FROM profesion WHERE idProfesion = ?",
       [id]
     );

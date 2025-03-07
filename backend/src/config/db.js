@@ -1,16 +1,15 @@
 import mysql from "mysql2/promise";
-import dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 const pool = mysql.createPool({
-    host: "127.0.0.1", // Según la imagen que enviaste
-    user: "root",
-    password: "1234", // Si no tienes contraseña, déjalo vacío
-    database: "hyperagendados",
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0,
+  host: process.env.DB_HOST, // Según la imagen que enviaste
+  user: "root",
+  password: process.env.DB_PASSWORD, // Si no tienes contraseña, déjalo vacío
+  database: process.env.DB_DATABASE,
+  port: process.env.DB_PORT,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
 });
 
 export default pool;
