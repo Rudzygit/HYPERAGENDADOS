@@ -50,19 +50,19 @@ CREATE TABLE usuario (
     FOREIGN KEY (idPersona) REFERENCES persona(idPersona)
 );
 
+-- Paso 8: Crear la tabla 'estadocita'
+CREATE TABLE estadocita (
+    idestadocita INT PRIMARY KEY AUTO_INCREMENT,
+    estadocita VARCHAR(50)
+);
 
--- Paso 8: Crear la tabla 'citas'
+-- Paso 9: Crear la tabla 'citas'
 CREATE TABLE citas (
     idCita BIGINT PRIMARY KEY AUTO_INCREMENT,
     fechaCita DATE,
     horaCita TIME,
     idUsuario BIGINT,
+    idestadocita INT,
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario),
-    idestadocita int
-);
-
--- Paso 9: Crear la tabla 'estadocita'
-CREATE TABLE estadocita (
-    idestadocita INT PRIMARY KEY AUTO_INCREMENT,
-    estadocita VARCHAR(50)
+    FOREIGN KEY (idestadocita) REFERENCES estadocita(idestadocita)
 );

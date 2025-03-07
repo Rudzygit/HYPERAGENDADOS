@@ -7,6 +7,7 @@ import TipoDocumento from "./routes/tipoDocumento.routes.js";
 import dotenv from "dotenv";
 dotenv.config();
 
+const citaRoutes = require('./routes/cita.routes');
 const app = express();
 const port = 5000;
 
@@ -21,8 +22,10 @@ app.use(cors());
 app.use(Auth);
 app.use("/profesiones", Profesion);
 app.use("/tipo-documentos", TipoDocumento);
+app.use('/api/citas', citaRoutes);
 
 // Iniciar el servidor
 app.listen(port, () => {
   console.log(`Servidor backend corriendo en http://localhost:${port}`);
 });
+

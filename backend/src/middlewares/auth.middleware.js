@@ -1,14 +1,9 @@
-import jwt from "jsonwebtoken";
-import "dotenv/config";
-
-export const verifyToken = (req, res, next) => {
-  const token = req.headers["authorization"];
-  if (!token)
-    return res.status(403).json({ message: "No se ha proporcionado un token" });
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) return res.status(403).json({ message: "Token inválido" });
-    req.user = user;
-    next();
-  });
+const authMiddleware = (req, res, next) => {
+  const user = req.user; // Suponiendo que el usuario ya ha sido autenticado y añadido al request
+  if (!user) {
+      return res.status(401).json({ message: 'No autorizado' });
+  }
+  next();
 };
+
+module.exports = authMiddleware;

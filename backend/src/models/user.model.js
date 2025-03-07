@@ -1,13 +1,12 @@
-import { connection } from "../config/db.js";
+const mongoose = require('mongoose');
 
-export const findByUserEmail = async (email) => {
-  const user = await connection.query(
-    "SELECT * FROM usuario WHERE username = ?",
-    [email]
-  );
-  return user[0];
-};
+const userSchema = new mongoose.Schema({
+    nombre: { type: String, required: true },
+    apellido: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    rol: { type: String, enum: ['admin', 'empleado', 'usuario'], required: true },
+    profesion: { type: mongoose.Schema.Types.ObjectId, ref: 'Profesion' }, // Solo si es un empleado
+}, { timestamps: true });
 
-export const saveUser = async (user) => {
-  // await connection.query("INSERT INTO usuario SET ?", [user]);
-};
+module.exports = mongoose.model('User', userSchema);
