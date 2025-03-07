@@ -10,7 +10,7 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [userRole, setUserRole] = useState<string | null>(null);
   const router = useRouter();
-  const pathname = usePathname(); // Obtiene la ruta actual
+  const pathname = usePathname(); // Ruta actual
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -18,15 +18,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       setUserRole(user.role);
 
       // Redirigir solo si el usuario NO está en su ruta correcta
-      if (user.role === "admin" && pathname !== "/admin") {
-        router.push("/admin");
-      } else if (user.role === "empleado" && pathname !== "/empleado") {
-        router.push("/empleado");
-      } else if (user.role === "usuario" && pathname !== "/usuario") {
-        router.push("/usuario");
+      if (user.role === "admin" && pathname !== "/dashboard/admin") {
+        router.push("/dashboard/admin");
+      } else if (user.role === "empleado" && pathname !== "/dashboard/empleado") {
+        router.push("/dashboard/empleado");
+      } else if (user.role === "usuario" && pathname !== "/dashboard/usuario") {
+        router.push("/dashboard/usuario");
       }
     }
-  }, [router, pathname]); // Dependencias correctas
+  }, [router, pathname]);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -42,17 +42,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <ul>
               {userRole === "admin" && (
                 <li>
-                  <Link href="/admin">Admin</Link>
+                  <Link href="/dashboard/admin">Admin</Link>
                 </li>
               )}
               {userRole === "empleado" && (
                 <li>
-                  <Link href="/empleado">Empleado</Link>
+                  <Link href="/dashboard/empleado">Empleado</Link>
                 </li>
               )}
               {userRole === "usuario" && (
                 <li>
-                  <Link href="/usuario">Usuario</Link>
+                  <Link href="/dashboard/usuario">Usuario</Link>
                 </li>
               )}
               {!userRole && (

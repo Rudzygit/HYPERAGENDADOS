@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 interface Props {
   children: React.ReactNode;
@@ -9,17 +9,21 @@ interface Props {
 
 const ProtegerRuta: React.FC<Props> = ({ children, roleRequired }) => {
   const router = useRouter();
+  const pathname = usePathname();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-    if (!user || user.role !== roleRequired) {
-      router.push("/");
+    if (!user?.role) {
+      router.push("/"); // Si no hay usuario, redirigir al login
+    } else if (user.role !== roleRequired) {
+      // Si el usuario tiene otro rol, lo redirigimos a su panel correcto
+      router.push(`/dashboard/${user.role}`);
     } else {
       setLoading(false);
     }
-  }, [router, roleRequired]);
+  }, [router, pathname, roleRequired]);
 
   if (loading) return <p>Cargando...</p>;
 

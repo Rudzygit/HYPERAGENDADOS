@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import ProtegerRuta from "../protegerRuta";
-import "../admin/AdminPage.css"; // Importación correcta
+import ProtegerRuta from "../../protegerRuta";
+import "./AdminPage.css";
 
 const AdminPage: React.FC = () => {
   return (
