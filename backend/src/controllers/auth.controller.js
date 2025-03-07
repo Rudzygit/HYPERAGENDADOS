@@ -15,9 +15,14 @@ import {
 } from "../models/user.model.js";
 import { getTipoDocumentoModel } from "../models/tipoDocumento.model.js";
 import { getProfesionModel } from "../models/profesion.model.js";
+import { getRolModel } from "../models/rol.model.js";
 import ApiResponse from "../utils/apiResponse.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+
+export const perfil = (req, res) => {
+  return res.status(200).json(ApiResponse(200, "Perfil", req.auth));
+};
 
 export const login = async (req, res) => {
   const valid = validateInputsFields(["username", "password"], req.body, res);
@@ -37,21 +42,36 @@ export const login = async (req, res) => {
       .status(500)
       .json(ApiResponse(500, "Error interno del servidor -> login", null));
 
-  const user = results.data[0];
-  const isValidPassword = await bcrypt.compare(password, user.password);
+  const account = results.data[0];
+  const isValidPassword = await bcrypt.compare(password, account.password);
 
   if (!isValidPassword)
     return res
       .status(401)
       .json(ApiResponse(401, "Contraseña incorrecta", null));
 
-  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-    expiresIn: "1d",
-  });
+  const rol = await getRolModel(account.idRol);
+  if (rol.data.length === 0)
+    return res
+      .status(500)
+      .json(ApiResponse(500, "Error interno del servidor -> rol", null));
 
-  delete user.password;
+  const token = jwt.sign(
+    {
+      id: account.id,
+      rol: rol.data[0].nombre.toLowerCase(),
+      usuario: username,
+      persona: account.idPersona,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "1d",
+    }
+  );
 
-  res.status(200).json(ApiResponse(200, "Login exitoso", { user, token }));
+  delete account.password;
+
+  res.status(200).json(ApiResponse(200, "Login exitoso", { account, token }));
 };
 
 export const register = async (req, res) => {
