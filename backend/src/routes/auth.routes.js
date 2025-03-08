@@ -8,7 +8,7 @@ const router = Router();
 router.post("/login", login);
 router.post("/register", register);
 
-// EJEMPLO RUTA SOLO AUTENTICADO
+
 router.get("/perfil", VerifyToken, perfil); //Ruta protegida con usuario autenticado
 
 // EJEMPLO RUTA AUTENTICADO Y ROL (para mas de un rol incluir en el array ejemplo ["administrador", "empleado"])

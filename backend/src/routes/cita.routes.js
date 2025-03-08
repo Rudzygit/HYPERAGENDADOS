@@ -1,8 +1,11 @@
-const express = require('express');
+import express from "express";
+import { obtenerCitas, crearCita, actualizarCita, eliminarCita } from "../controllers/cita.controller.js";
+
 const router = express.Router();
-const citaController = require('../controllers/cita.controller');
 
-router.get('/', citaController.obtenerCitas);
-router.post('/', citaController.crearCita);
+router.get("/", obtenerCitas);
+router.post("/", crearCita);
+router.put("/:id", actualizarCita);
+router.delete("/:id", eliminarCita);
 
-module.exports = router;
+export default router;
