@@ -1,16 +1,6 @@
 import mysql from "mysql2/promise";
 import "dotenv/config";
 
-// Verificación de que las variables de entorno se están cargando
-console.log("📌 Configuración de la base de datos:", {
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD ? "********" : "NO DEFINIDA",
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT
-});
-
-// Crear el pool de conexiones
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
