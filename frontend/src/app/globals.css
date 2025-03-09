@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+.fondo-imagen {
+  background-image: url("/fondo.avif");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
