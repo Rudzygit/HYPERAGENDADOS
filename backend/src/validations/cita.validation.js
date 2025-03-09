@@ -1,7 +1,12 @@
-const { body } = require('express-validator');
+import { body, param } from "express-validator";
 
-exports.validarCita = [
-    body('usuario').notEmpty().withMessage('El usuario es obligatorio'),
-    body('empleado').notEmpty().withMessage('El empleado es obligatorio'),
-    body('fecha').isISO8601().withMessage('Fecha inválida')
+export const validarCita = [
+  body("usuario_id").isInt().withMessage("El ID del usuario debe ser un número entero"),
+  body("fecha").isDate().withMessage("Fecha inválida"),
+  body("hora").matches(/^([01]\d|2[0-3]):([0-5]\d)$/).withMessage("Hora inválida"),
+  body("descripcion").isString().withMessage("La descripción debe ser un texto"),
+];
+
+export const validarID = [
+  param("id").isInt().withMessage("El ID debe ser un número entero"),
 ];
