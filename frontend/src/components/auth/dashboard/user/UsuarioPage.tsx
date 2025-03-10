@@ -1,7 +1,6 @@
-"use client";
+
 
 import React from "react";
-import "./UsuarioPage.css";
 
 const UsuarioPage: React.FC = () => {
   return (
