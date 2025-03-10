@@ -33,9 +33,9 @@ INSERT INTO persona (idPersona, primerNombre, segundoNombre, apellido1, apellido
 
 -- Insertar datos en la tabla 'usuario'
 INSERT INTO usuario (idUsuario, usuario, password, idRol, idPersona) VALUES
-(1, 'admin', 'admin', 1, 1),
-(2, 'empleado', 'empleado', 2, 2),
-(3, 'usuario', 'usuario', 3, 3);
+(1, 'admin', '$2b$10$N5UYuhZDOqmbDNRBlAAKiOdBoWtr7JDD2hOHGI9wupBEsIPxqf2bm', 1, 1),
+(2, 'usuario', '$2b$10$N5UYuhZDOqmbDNRBlAAKiOdBoWtr7JDD2hOHGI9wupBEsIPxqf2bm', 2, 2),
+(3, 'empleado', '$2b$10$N5UYuhZDOqmbDNRBlAAKiOdBoWtr7JDD2hOHGI9wupBEsIPxqf2bm', 3, 3);
 
 -- Insertar datos en la tabla 'estadocita'
 INSERT INTO estadocita (idestadocita, estadocita) VALUES

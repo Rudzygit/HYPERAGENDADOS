@@ -1,107 +1,145 @@
+root {
+  --primary-green: #2c8c67;
+  --secondary-green: #3ba77a;
+  --light-green: #e6f4f0;
+  --dark-green: #174d3a;
+  --accent-green: #52c794;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --radius: 8px;
+}
+
 .empleado-container {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
 
-h1, h2 {
-  color: #2c3e50;
+.empleado-container h2 {
+  color: var(--dark-green);
   text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  border-bottom: 3px solid var(--accent-green);
+  padding-bottom: 0.5rem;
 }
 
-.formulario-cita {
-  background: #ecf0f1;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 20px;
+.empleado-container h3 {
+  color: var(--primary-green);
+  margin: 1.5rem 0;
+  font-size: 1.5rem;
 }
 
-fieldset {
-  border: none;
-  padding: 10px;
+.formulario {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+  background-color: var(--light-green);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  border-left: 4px solid var(--primary-green);
 }
 
-legend {
-  font-weight: bold;
-  color: #2c3e50;
+.formulario input {
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-label {
-  display: block;
-  margin: 10px 0 5px;
-  font-weight: bold;
+.formulario input:focus {
+  border-color: var(--primary-green);
+  box-shadow: 0 0 0 2px rgba(44, 140, 103, 0.2);
+  outline: none;
 }
 
-input {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 1px solid #bdc3c7;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
-button {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  background: #27ae60;
+.formulario button {
+  grid-column: 1 / -1;
+  background-color: var(--primary-green);
   color: white;
   border: none;
-  border-radius: 5px;
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: var(--radius);
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background-color 0.3s;
 }
 
-button:hover, button:focus {
-  background: #2ecc71;
-  outline: 2px solid #2980b9;
+.formulario button:hover {
+  background-color: var(--secondary-green);
 }
 
-.tooltip {
-  position: relative;
-  display: inline-block;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background-color: white;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
 }
 
-.tooltip .tooltip-text {
-  visibility: hidden;
-  width: 120px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  padding: 5px;
-  border-radius: 5px;
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: opacity 0.3s;
+thead {
+  background-color: var(--primary-green);
+  color: white;
 }
 
-.tooltip:hover .tooltip-text, button:focus .tooltip-text {
-  visibility: visible;
-  opacity: 1;
+th {
+  text-align: left;
+  padding: 1rem;
+  font-weight: 600;
 }
 
-.lista-citas {
-  background: #f5f5f5;
-  padding: 15px;
-  border-radius: 8px;
+td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid #eee;
 }
 
-.cita {
-  background: white;
-  padding: 10px;
-  margin: 10px 0;
-  border-left: 5px solid #3498db;
-  border-radius: 5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+tbody tr:nth-child(even) {
+  background-color: var(--light-green);
 }
 
-.cita p {
-  margin: 5px 0;
+tbody tr:hover {
+  background-color: rgba(82, 199, 148, 0.1);
+}
+
+td button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+td button:hover {
+  background-color: #c0392b;
+}
+
+/* Estado styles */
+td:nth-child(5) {
+  font-weight: 600;
+}
+
+td:nth-child(5):contains("Disponible") {
+  color: var(--primary-green);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .formulario {
+    grid-template-columns: 1fr;
+  }
+  
+  table {
+    display: block;
+    overflow-x: auto;
+  }
 }
