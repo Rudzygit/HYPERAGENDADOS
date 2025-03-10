@@ -1,0 +1,15 @@
+usuario 1 
+
+nombre : admin
+contraseña : Ss3144151992%
+
+usuario 2 
+
+nombre : empleado
+contraseña : Ss3144151992%
+
+
+usuario 3 
+
+nombre : usuario
+contraseña : Ss3144151992%
