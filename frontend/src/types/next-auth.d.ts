@@ -3,7 +3,7 @@ import "next-auth";
 declare module "next-auth" {
   interface Session {
     user: {
-      account: Account;
+      user: Account;
       token: string;
     };
     expires: string;
