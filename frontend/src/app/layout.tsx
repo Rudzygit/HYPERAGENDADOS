@@ -1,3 +1,4 @@
+import SessionAuthProvider from "@/context/SessionAuthProvider";
 import "./globals.css";
 import type { Metadata } from "next";
 
@@ -13,7 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body>{children}</body>
+      <body>
+        <SessionAuthProvider>{children}</SessionAuthProvider>
+      </body>
     </html>
   );
 }
