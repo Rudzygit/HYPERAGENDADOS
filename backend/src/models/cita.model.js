@@ -1,26 +1,33 @@
-import db from "../config/db.js";
+import pool from "../config/db.js";
 
+// Obtener todas las citas
 export const obtenerCitasDB = async () => {
-  const [citas] = await db.query("SELECT * FROM citas");
+  const [citas] = await pool.query("SELECT * FROM citas");
   return citas;
 };
 
+// Crear una nueva cita
 export const crearCitaDB = async (datos) => {
-  const { usuario_id, fecha, hora, descripcion } = datos;
-  const query = "INSERT INTO citas (usuario_id, fecha, hora, descripcion) VALUES (?, ?, ?, ?)";
-  const [resultado] = await db.query(query, [usuario_id, fecha, hora, descripcion]);
+  const { idUsuario, fechaCita, horaCita, idestadocita = 1 } = datos; // Estado por defecto: "Pendiente"
+  const query = `INSERT INTO citas (idUsuario, fechaCita, horaCita, idestadocita) VALUES (?, ?, ?, ?)`;
+  const [resultado] = await pool.query(query, [idUsuario, fechaCita, horaCita, idestadocita]);
+
+  // Obtener la cita recién insertada
+  const [nuevaCita] = await pool.query(`SELECT * FROM citas WHERE idCita = ?`, [resultado.insertId]);
+  return nuevaCita[0]; // Retornar la cita creada
+};
+
+// Actualizar una cita
+export const actualizarCitaDB = async (idCita, datos) => {
+  const { fechaCita, horaCita, idestadocita } = datos;
+  const query = "UPDATE citas SET fechaCita = ?, horaCita = ?, idestadocita = ? WHERE idCita = ?";
+  const [resultado] = await pool.query(query, [fechaCita, horaCita, idestadocita, idCita]);
   return resultado;
 };
 
-export const actualizarCitaDB = async (id, datos) => {
-  const { fecha, hora, descripcion } = datos;
-  const query = "UPDATE citas SET fecha = ?, hora = ?, descripcion = ? WHERE id = ?";
-  const [resultado] = await db.query(query, [fecha, hora, descripcion, id]);
-  return resultado;
-};
-
-export const eliminarCitaDB = async (id) => {
-  const query = "DELETE FROM citas WHERE id = ?";
-  const [resultado] = await db.query(query, [id]);
+// Eliminar una cita
+export const eliminarCitaDB = async (idCita) => {
+  const query = "DELETE FROM citas WHERE idCita = ?";
+  const [resultado] = await pool.query(query, [idCita]);
   return resultado;
 };

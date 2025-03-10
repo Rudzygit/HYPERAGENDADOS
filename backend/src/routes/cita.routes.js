@@ -3,6 +3,7 @@ import { obtenerCitas, crearCita, actualizarCita, eliminarCita } from "../contro
 
 const router = express.Router();
 
+// Rutas de citas
 router.get("/", obtenerCitas);
 router.post("/", crearCita);
 router.put("/:id", actualizarCita);
