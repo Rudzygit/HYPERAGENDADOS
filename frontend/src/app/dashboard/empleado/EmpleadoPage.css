@@ -1,6 +1,107 @@
 .empleado-container {
-  background-color: #d1ecf1;
+  max-width: 800px;
+  margin: auto;
   padding: 20px;
-  border-radius: 5px;
+  font-family: Arial, sans-serif;
+}
+
+h1, h2 {
+  color: #2c3e50;
   text-align: center;
+}
+
+.formulario-cita {
+  background: #ecf0f1;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+fieldset {
+  border: none;
+  padding: 10px;
+}
+
+legend {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #bdc3c7;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover, button:focus {
+  background: #2ecc71;
+  outline: 2px solid #2980b9;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltip-text {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltip-text, button:focus .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.lista-citas {
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.cita {
+  background: white;
+  padding: 10px;
+  margin: 10px 0;
+  border-left: 5px solid #3498db;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cita p {
+  margin: 5px 0;
 }

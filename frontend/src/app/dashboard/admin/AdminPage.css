@@ -4,3 +4,30 @@
   border-radius: 5px;
   text-align: center;
 }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #f5c6cb;
+}
+
+button {
+  cursor: pointer;
+  margin: 5px;
+  border: none;
+  background: transparent;
+  font-size: 18px;
+}
+button:hover {
+  opacity: 0.7;
+}
