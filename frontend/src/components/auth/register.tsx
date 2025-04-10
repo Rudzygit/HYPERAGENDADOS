@@ -1,25 +1,66 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaUser } from "react-icons/fa";
+import { FaUser, FaKey, FaEye, FaEyeSlash } from "react-icons/fa";
 import { IoMail } from "react-icons/io5";
 import { FaPhone } from "react-icons/fa";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { RiAccountCircleFill } from "react-icons/ri";
 
 const steps = ["Datos personales", "Contacto", "Cuenta"];
 
 interface registerProps {
   setView: (view: "login" | "register") => void;
+  addAlert: (
+    message: string,
+    type?: "success" | "error" | "warning" | "info"
+  ) => void;
 }
 
-const Register = ({ setView }: registerProps) => {
+const Register = ({ setView, addAlert }: registerProps) => {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
-  const [errorSteps, setErrorSteps] = useState<number[]>([]);
   const [showPassword, setShowPassword] = useState(false);
+  const [tipoDocumento, setTipoDocumento] = useState<
+    { idDocumento: number; nombre: string }[] | null
+  >(null);
+  const [profesiones, setProfesiones] = useState<
+    { idProfesion: number; nombre: string }[] | null
+  >(null);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  useEffect(() => {
+    const fetchProfesiones = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/profesiones`
+        );
+        const data = await response.json();
+        setProfesiones(data.data);
+      } catch (error) {
+        console.error("Error al obtener profesiones:", error);
+      }
+    };
+
+    const fetchTipoDocumento = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/tipo-documentos`
+        );
+        const data = await response.json();
+        setTipoDocumento(data.data);
+      } catch (error) {
+        console.error("Error al obtener tipos de documento:", error);
+      }
+    };
+    fetchTipoDocumento();
+    fetchProfesiones();
+  }, []);
 
   useEffect(() => {
     if (
@@ -44,28 +85,70 @@ const Register = ({ setView }: registerProps) => {
   };
 
   const onSubmit = handleSubmit(async (data) => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/register`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          primerNombre: data.primerNombre,
-          segundoNombre: data.segundoNombre,
-          apellido1: data.apellido1,
-          apellido2: data.apellido2,
-          idDocumento: data.idDocumento,
-          documento: data.documento,
-          idProfesion: data.idProfesion,
-          fechaNacimiento: data.fechaNacimiento,
-          telefono: data.telefono,
-          correoElectronico: data.correoElectronico,
-          usuario: data.correoElectronico,
-          password: data.password,
-        }),
-        headers: { "Content-Type": "application/json" },
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/register`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            primerNombre: data.primerNombre,
+            segundoNombre: data.segundoNombre,
+            apellido1: data.apellido1,
+            apellido2: data.apellido2,
+            idDocumento: parseInt(data.idDocumento),
+            documento: data.documento,
+            idProfesion: parseInt(data.idProfesion),
+            fechaNacimiento: data.fechaNacimiento,
+            telefono: data.telefono,
+            correoElectronico: data.correoElectronico,
+            usuario: data.usuario,
+            password: data.password,
+          }),
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      const response = await res.json();
+      console.log(response);
+
+      if (response.status !== 200 && response.status !== 201) {
+        if (response.data) {
+          response.data.forEach((error: { [key: string]: string }) => {
+            const message = Object.values(error)[0];
+            addAlert(message, "error");
+          });
+        } else {
+          addAlert(response.message, "error");
+        }
+
+        return;
       }
-    );
-    console.log(res);
+
+      addAlert("Usuario registrado exitosamente", "success");
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Error desconocido";
+      addAlert(`Error al conectar con el servidor: ${errorMessage}`, "error");
+      return;
+    }
+
+    try {
+      const resAuth = await signIn("credentials", {
+        username: data.usuario,
+        password: data.password,
+        redirect: false,
+      });
+
+      if (resAuth?.error) {
+        addAlert(resAuth.error, "error");
+        return;
+      }
+
+      addAlert("Inicio de sesión exitoso", "success");
+      setTimeout(() => router.push("/dashboard/"), 500);
+    } catch (error) {
+      addAlert(`Error al conectar con el servidor ${error}`, "error");
+      return;
+    }
   });
 
   return (
@@ -88,7 +171,7 @@ const Register = ({ setView }: registerProps) => {
               <input
                 className="w-full ml-2 outline-none text-gray-700"
                 type="text"
-                placeholder="Ingrese su primer nombre"
+                placeholder="Ingrese su primer nombre *"
                 {...register("primerNombre", {
                   required: "El primer nombre es obligatorio",
                 })}
@@ -125,7 +208,7 @@ const Register = ({ setView }: registerProps) => {
               <input
                 className="w-full ml-2 outline-none text-gray-700"
                 type="text"
-                placeholder="Ingrese su primer apellido"
+                placeholder="Ingrese su primer apellido *"
                 {...register("apellido1", {
                   required: "El primer apellido es obligatorio",
                 })}
@@ -168,10 +251,20 @@ const Register = ({ setView }: registerProps) => {
                   },
                 })}
               >
-                <option value="1">Cédula de Ciudadanía</option>
-                <option value="2">Tarjeta de Identidad</option>
-                <option value="3">Pasaporte</option>
-                <option value="4">Cedula de Extranjeria</option>
+                <option defaultValue={""}>
+                  Seleccione un tipo de documento *
+                </option>
+                {tipoDocumento &&
+                  tipoDocumento.map(
+                    (documento: { idDocumento: number; nombre: string }) => (
+                      <option
+                        key={documento.idDocumento}
+                        value={documento.idDocumento}
+                      >
+                        {documento.nombre}
+                      </option>
+                    )
+                  )}
               </select>
             </div>
             {errors.idDocumento &&
@@ -188,7 +281,7 @@ const Register = ({ setView }: registerProps) => {
               <input
                 className="w-full ml-2 outline-none text-gray-700"
                 type="text"
-                placeholder="Ingrese su numero de documento"
+                placeholder="Ingrese su numero de documento *"
                 {...register("documento", {
                   required: {
                     value: true,
@@ -217,10 +310,18 @@ const Register = ({ setView }: registerProps) => {
                   },
                 })}
               >
-                <option value="1">Cédula de Ciudadanía</option>
-                <option value="2">Tarjeta de Identidad</option>
-                <option value="3">Pasaporte</option>
-                <option value="4">Cedula de Extranjeria</option>
+                <option defaultValue={""}>Seleccione una profesion *</option>
+                {profesiones &&
+                  profesiones.map(
+                    (prof: { idProfesion: number; nombre: string }) => (
+                      <option
+                        key={prof.idProfesion}
+                        value={prof.idProfesion}
+                      >
+                        {prof.nombre}
+                      </option>
+                    )
+                  )}
               </select>
             </div>
             {errors.idProfesion &&
@@ -235,12 +336,28 @@ const Register = ({ setView }: registerProps) => {
             <div className="flex items-center border border-gray-300 rounded-md px-3 py-2 focus-within:border-sky-500">
               <FaUser className="text-gray-400" />
               <input
-                className="w-full ml-2 outline-none text-gray-700"
+                className="w-full ml-2 outline-none text-gray-700 cursor-pointer"
                 type="date"
+                placeholder="Fecha de nacimiento *"
+                max={(() => {
+                  const date = new Date();
+                  date.setHours(date.getHours() - 12);
+                  return date.toISOString().split("T")[0];
+                })()}
                 {...register("fechaNacimiento", {
                   required: {
                     value: true,
                     message: "La fecha de nacimiento es obligatoria",
+                  },
+                  validate: {
+                    notFuture: (value) => {
+                      const date = new Date(value);
+                      const maxDate = new Date();
+                      maxDate.setHours(maxDate.getHours() - 12);
+                      return (
+                        date <= maxDate || "La fecha ingresada no es valida"
+                      );
+                    },
                   },
                 })}
               />
@@ -282,7 +399,7 @@ const Register = ({ setView }: registerProps) => {
               <input
                 className="w-full ml-2 outline-none text-gray-700"
                 type="email"
-                placeholder="Ingrese su correo electronico"
+                placeholder="Ingrese su correo electronico *"
                 {...register("correoElectronico", {
                   required: {
                     value: true,
@@ -307,11 +424,11 @@ const Register = ({ setView }: registerProps) => {
         >
           <div className="mb-4">
             <div className="flex items-center border border-gray-300 rounded-md px-3 py-2 focus-within:border-sky-500">
-              <FaPhone className="text-gray-400" />
+              <RiAccountCircleFill className="text-gray-400" />
               <input
                 className="w-full ml-2 outline-none text-gray-700"
                 type="text"
-                placeholder="Ingrese usuario"
+                placeholder="Ingrese usuario *"
                 {...register("usuario", {
                   required: {
                     value: true,
@@ -329,11 +446,11 @@ const Register = ({ setView }: registerProps) => {
 
           <div className="mb-4">
             <div className="flex items-center border border-gray-300 rounded-md px-3 py-2 focus-within:border-sky-500">
-              <IoMail className="text-gray-400" />
+              <FaKey className="text-gray-400" />
               <input
                 className="w-full ml-2 outline-none text-gray-700"
                 type={showPassword ? "text" : "password"}
-                placeholder="Ingrese una contraseña"
+                placeholder="Ingrese una contraseña *"
                 {...register("password", {
                   required: {
                     value: true,
@@ -341,11 +458,12 @@ const Register = ({ setView }: registerProps) => {
                   },
                 })}
               />
-              <input
-                type="checkbox"
-                checked={showPassword}
-                onChange={() => setShowPassword(!showPassword)}
-              />
+              <div
+                className="cursor-pointer ml-1 text-gray-400 hover:text-gray-600"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </div>
             </div>
             {errors.password && typeof errors.password.message === "string" && (
               <span className="text-red-500 text-xs italic">

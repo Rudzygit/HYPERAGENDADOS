@@ -56,6 +56,6 @@ export const validatePassword = (password) => {
   // Debe contener al menos un carácter especial (@$!%*?&).
   // La contraseña debe tener al menos 8 caracteres y solo puede contener letras, números y los caracteres especiales permitidos.
   const regex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$.,!%*?&]{8,}$/;
   return regex.test(password);
 };
